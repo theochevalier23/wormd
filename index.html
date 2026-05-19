@@ -9,12 +9,10 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Noto Sans',sans-serif;background:#fff;color:#111;overflow-x:hidden;}
-
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 36px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:0.5px solid #eee;}
 .nav-logo{font-weight:900;font-size:22px;letter-spacing:-0.5px;color:#111;}
 .nav-menu{background:#111;color:#fff;font-size:13px;font-weight:500;letter-spacing:0.5px;padding:10px 22px;border:none;cursor:pointer;font-family:'Noto Sans',sans-serif;transition:background 0.2s;}
 .nav-menu:hover{background:#1847c2;}
-
 .hero{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:32px;padding:120px 36px 0;}
 .cube-scene{width:200px;height:200px;perspective:500px;flex-shrink:0;}
 .cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:spin 12s linear infinite;}
@@ -35,15 +33,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .face-left{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
 .clock-time{font-weight:900;font-size:28px;color:#fff;letter-spacing:-1px;line-height:1;}
 .clock-sec{font-weight:300;font-size:13px;color:rgba(255,255,255,0.5);letter-spacing:3px;margin-top:4px;}
-
 .hero-text{text-align:center;}
 .hero-text h1{font-weight:900;font-size:clamp(36px,6vw,68px);letter-spacing:-2.5px;line-height:0.95;color:#111;margin-bottom:12px;}
 .hero-text h1 em{color:#1847c2;font-style:normal;}
 .hero-text p{font-size:14px;color:#999;font-weight:300;max-width:340px;margin:0 auto;line-height:1.7;}
-
 .game-area{display:grid;grid-template-columns:1fr 280px;gap:24px;padding:48px 36px 80px;max-width:960px;margin:0 auto;width:100%;}
 .left-col{display:flex;flex-direction:column;gap:16px;}
-
 .search-wrap{display:flex;gap:10px;}
 .search-wrap input{flex:1;padding:14px 18px;font-family:'Noto Sans',sans-serif;font-size:15px;border:1.5px solid #e0e0e0;outline:none;transition:border 0.2s;background:#fff;color:#111;}
 .search-wrap input:focus{border-color:#1847c2;}
@@ -52,12 +47,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .search-wrap button{background:#1847c2;color:#fff;border:none;padding:14px 24px;font-family:'Noto Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;min-width:110px;transition:opacity 0.2s;}
 .search-wrap button:hover{opacity:0.85;}
 .search-wrap button:disabled{opacity:0.4;cursor:not-allowed;}
-
 .flash-bar-wrap{width:100%;height:6px;background:#f0f0f0;border-radius:100px;overflow:hidden;position:relative;}
 .flash-bar{position:absolute;left:0;top:0;height:100%;width:0%;border-radius:100px;}
 .flash-bar.animate{animation:flashProgress 1.2s cubic-bezier(.4,0,.2,1) forwards;}
 @keyframes flashProgress{0%{width:0%;opacity:1;}70%{opacity:1;}100%{width:100%;opacity:0;}}
-
 .words-header{display:grid;grid-template-columns:32px 1fr 160px;padding:8px 12px;border-bottom:1px solid #f0f0f0;gap:8px;}
 .words-header span{font-size:11px;color:#bbb;letter-spacing:0.8px;text-transform:uppercase;}
 .word-row{display:grid;grid-template-columns:32px 1fr 160px;padding:10px 12px;border-bottom:0.5px solid #f5f5f5;align-items:center;gap:8px;transition:background 0.15s;}
@@ -65,16 +58,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .word-order{font-size:12px;color:#ccc;font-weight:500;}
 .word-name{font-size:15px;font-weight:500;color:#111;}
 .proximity-cell{display:flex;align-items:center;gap:8px;}
-.score-badge{min-width:38px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;padding:0 8px;flex-shrink:0;}
+.score-badge{min-width:44px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;padding:0 8px;flex-shrink:0;}
 .score-badge.negative{background:#ddd;color:#aaa;}
 .mini-bar-wrap{flex:1;height:6px;background:#f0f0f0;border-radius:100px;overflow:hidden;}
 .mini-bar{height:100%;border-radius:100px;transition:width 0.4s;}
 .loading-row{padding:12px;text-align:center;font-size:13px;color:#aaa;font-style:italic;}
 .error-row{padding:12px;text-align:center;font-size:13px;color:#e24b4a;}
-
+.invalide-row{padding:12px;text-align:center;font-size:13px;color:#e24b4a;font-weight:500;}
 .win-banner{background:#1847c2;color:#fff;padding:16px 20px;text-align:center;font-weight:700;font-size:16px;border-radius:8px;display:none;}
 .win-banner.show{display:block;}
-
 .right-col{display:flex;flex-direction:column;gap:16px;}
 .score-card{background:#fff;border:0.5px solid #e8e8e8;padding:24px;}
 .score-card-label{font-size:11px;color:#bbb;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
@@ -92,12 +84,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </style>
 </head>
 <body>
-
 <nav>
   <div class="nav-logo">Wormd</div>
   <button class="nav-menu">Menu</button>
 </nav>
-
 <section class="hero">
   <div class="cube-scene">
     <div class="cube">
@@ -112,7 +102,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
     <p>Tape un mot et découvre à quel point tu es proche du mot mystère.</p>
   </div>
 </section>
-
 <div class="game-area">
   <div class="left-col">
     <div class="win-banner" id="winBanner">🎉 Bravo ! Tu as trouvé le mot !</div>
@@ -144,7 +133,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
     </div>
   </div>
 </div>
-
 <script>
 const now=new Date();
 document.getElementById('dateDay').textContent=now.getDate();
@@ -153,13 +141,31 @@ function pad(n){return String(n).padStart(2,'0');}
 function updateClock(){const d=new Date();document.getElementById('clockHM').textContent=pad(d.getHours())+':'+pad(d.getMinutes());document.getElementById('clockS').textContent=pad(d.getSeconds())+'s';}
 updateClock();setInterval(updateClock,1000);
 
-const MOTS=['océan','forêt','musique','montagne','voyage','rêve','silence','flamme','miroir','tonnerre','lumière','ombre','rivière','nuage','château','jardin','soleil','étoile','tempête','plage'];
-const motSecret=MOTS[now.getDate()%MOTS.length];
+const MOTS_PAR_DATE={
+  '2026-05-19':'océan','2026-05-20':'forêt','2026-05-21':'musique',
+  '2026-05-22':'montagne','2026-05-23':'voyage','2026-05-24':'rêve',
+  '2026-05-25':'silence','2026-05-26':'flamme','2026-05-27':'miroir',
+  '2026-05-28':'tonnerre','2026-05-29':'lumière','2026-05-30':'ombre',
+  '2026-05-31':'rivière','2026-06-01':'nuage','2026-06-02':'château',
+  '2026-06-03':'jardin','2026-06-04':'soleil','2026-06-05':'étoile',
+  '2026-06-06':'tempête','2026-06-07':'plage','2026-06-08':'désert',
+  '2026-06-09':'neige','2026-06-10':'ville','2026-06-11':'marché',
+  '2026-06-12':'livre','2026-06-13':'guerre','2026-06-14':'fête',
+  '2026-06-15':'printemps','2026-06-16':'automne','2026-06-17':'hiver'
+};
+
+function getDateFR(){
+  const d=new Date();
+  const year=d.getFullYear();
+  const month=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${year}-${month}-${day}`;
+}
+
+const motSecret=MOTS_PAR_DATE[getDateFR()]||'océan';
 
 function getColor(s){if(s<=0)return '#ddd';if(s<20)return '#b5d4f4';if(s<40)return '#6aaee8';if(s<60)return '#378add';if(s<80)return '#1f6bbf';return '#1847c2';}
 function triggerFlash(score){const bar=document.getElementById('flashBar');bar.classList.remove('animate');bar.style.background=getColor(score);void bar.offsetWidth;bar.classList.add('animate');}
-
-let words=[],attempts=0,isLoading=false;
 
 async function getSemanticScore(mot){
   const res=await fetch('/api/score',{
@@ -167,9 +173,10 @@ async function getSemanticScore(mot){
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({mot,motSecret})
   });
-  const data=await res.json();
-  return data.score;
+  return await res.json();
 }
+
+let words=[],attempts=0,isLoading=false;
 
 function render(){
   const sorted=[...words].sort((a,b)=>b.score-a.score);
@@ -181,20 +188,20 @@ function render(){
     const isNeg=item.score<=0;
     const row=document.createElement('div');
     row.className='word-row';
-    row.innerHTML=`<span class="word-order">${item.order}</span><span class="word-name">${item.word}</span><div class="proximity-cell"><div class="score-badge${isNeg?' negative':''}" style="${isNeg?'':'background:'+color}">${item.score}</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${barW}%;background:${color};"></div></div></div>`;
+    row.innerHTML=`<span class="word-order">${item.order}</span><span class="word-name">${item.word}</span><div class="proximity-cell"><div class="score-badge${isNeg?' negative':''}" style="${isNeg?'':'background:'+color}">${item.score.toFixed(2)}</div><div class="mini-bar-wrap"><div class="mini-bar" style="width:${barW}%;background:${color};"></div></div></div>`;
     list.appendChild(row);
   });
   if(words.length>0){
     const best=sorted[0];
     const scoreEl=document.getElementById('bestScoreVal');
-    scoreEl.textContent=Math.max(0,best.score);
+    scoreEl.textContent=Math.max(0,best.score).toFixed(2);
     scoreEl.style.color=best.score>0?getColor(best.score):'#ccc';
     document.getElementById('mainBar').style.width=Math.max(0,Math.min(100,best.score))+'%';
     document.getElementById('mainBar').style.background=getColor(best.score);
     document.getElementById('bestWord').textContent=best.word;
-    document.getElementById('bestScoreLabel').textContent='Score : '+best.score;
+    document.getElementById('bestScoreLabel').textContent='Score : '+best.score.toFixed(2);
     document.getElementById('attemptsNum').textContent=attempts;
-    if(best.score===100){document.getElementById('winBanner').classList.add('show');}
+    if(best.score>=100){document.getElementById('winBanner').classList.add('show');}
   }
 }
 
@@ -217,12 +224,21 @@ async function submit(){
 
   try{
     attempts++;
-    const score=await getSemanticScore(word);
+    const data=await getSemanticScore(word);
     const lr=document.getElementById('loadingRow');
     if(lr)lr.remove();
-    words.push({word,score,order:attempts});
-    if(score>20)triggerFlash(score);
-    render();
+    if(data.invalide){
+      attempts--;
+      const errRow=document.createElement('div');
+      errRow.className='invalide-row';
+      errRow.textContent='❌ "'+word+'" — mot invalide, prénom ou orthographe incorrecte.';
+      document.getElementById('wordsList').prepend(errRow);
+      setTimeout(()=>errRow.remove(),3000);
+    } else {
+      words.push({word,score:data.score,order:attempts});
+      if(data.score>20)triggerFlash(data.score);
+      render();
+    }
   }catch(e){
     attempts--;
     const lr=document.getElementById('loadingRow');

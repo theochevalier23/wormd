@@ -79,8 +79,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .attempts-card{background:#f7f9ff;border:0.5px solid #e0e8ff;padding:20px;}
 .attempts-num{font-weight:900;font-size:36px;color:#1847c2;letter-spacing:-1.5px;}
 .attempts-label{font-size:11px;color:#8899cc;letter-spacing:0.8px;text-transform:uppercase;margin-top:2px;}
-.win-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#1847c2;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;animation:winIn 0.5s cubic-bezier(.4,0,.2,1);}
-.win-overlay.show{display:flex;}
+.deja-joue{background:#f7f9ff;border:0.5px solid #e0e8ff;padding:16px 20px;font-size:14px;color:#555;display:flex;align-items:center;gap:10px;}
+.deja-joue strong{color:#1847c2;font-weight:700;}
+.win-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#1847c2;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+.win-overlay.show{display:flex;animation:winIn 0.5s cubic-bezier(.4,0,.2,1);}
 @keyframes winIn{from{opacity:0;transform:scale(1.02);}to{opacity:1;transform:scale(1);}}
 .win-tag{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:4px;text-transform:uppercase;}
 .win-label{font-size:14px;color:rgba(255,255,255,0.6);font-weight:300;letter-spacing:1px;}
@@ -96,6 +98,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 </style>
 </head>
 <body>
+
 <div class="win-overlay" id="winOverlay">
   <div class="win-tag">Wormd</div>
   <div class="win-label">Le mot du jour était</div>
@@ -113,10 +116,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
   </div>
   <button class="win-btn" onclick="document.getElementById('winOverlay').classList.remove('show')">Voir mes résultats</button>
 </div>
+
 <nav>
   <div class="nav-logo">Wormd</div>
   <button class="nav-menu">Menu</button>
 </nav>
+
 <section class="hero">
   <div class="cube-scene">
     <div class="cube">
@@ -131,14 +136,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
     <p>Tape un mot et découvre à quel point tu es proche du mot mystère.</p>
   </div>
 </section>
+
 <div style="padding:24px 36px 0;max-width:960px;margin:0 auto;width:100%;">
   <div class="stats-bar">
     <div class="stat-pill">Mot d'hier : <strong id="motHier">...</strong></div>
     <div class="stat-pill"><strong id="countTrouve">...</strong> personnes ont trouvé aujourd'hui</div>
   </div>
 </div>
+
 <div class="game-area">
   <div class="left-col">
+    <div id="dejaJoueMsg" style="display:none;" class="deja-joue">
+      ✅ Tu as déjà trouvé le mot aujourd'hui — <strong id="dejaJoueMot"></strong> en <strong id="dejaJoueAttempts"></strong> tentatives !
+    </div>
     <div class="search-wrap">
       <input type="text" id="wordInput" placeholder="Tape un mot..." autocomplete="off">
       <button id="submitBtn">Valider</button>
@@ -166,6 +176,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
     </div>
   </div>
 </div>
+
 <script>
 const now=new Date();
 document.getElementById('dateDay').textContent=now.getDate();
@@ -173,8 +184,26 @@ document.getElementById('dateMonth').textContent=now.toLocaleDateString('fr-FR',
 function pad(n){return String(n).padStart(2,'0');}
 function tick(){const d=new Date();document.getElementById('clockHM').textContent=pad(d.getHours())+':'+pad(d.getMinutes());document.getElementById('clockS').textContent=pad(d.getSeconds())+'s';}
 tick();setInterval(tick,1000);
+
+function getToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+const TODAY=getToday();
+const LS_KEY=`wormd_${TODAY}`;
+
+function sauvegarder(){
+  localStorage.setItem(LS_KEY,JSON.stringify({words,attempts,gagne,motGagne}));
+  Object.keys(localStorage).forEach(k=>{if(k.startsWith('wormd_')&&k!==LS_KEY)localStorage.removeItem(k);});
+}
+
+function charger(){
+  try{
+    const data=JSON.parse(localStorage.getItem(LS_KEY));
+    if(data){words=data.words||[];attempts=data.attempts||0;gagne=data.gagne||false;motGagne=data.motGagne||'';}
+  }catch(e){}
+}
+
 function getEmoji(s){if(s>=100)return '🎯';if(s>=75)return '🤯';if(s>=50)return '🔥';if(s>=25)return '😮';if(s>0)return '🥶';return '❄️';}
 function getColor(s){if(s<=0)return '#ddd';if(s<20)return '#b5d4f4';if(s<40)return '#6aaee8';if(s<60)return '#378add';if(s<80)return '#1f6bbf';return '#1847c2';}
+
 async function loadStats(){
   try{
     const r=await fetch('/api/stats');
@@ -184,6 +213,7 @@ async function loadStats(){
   }catch(e){document.getElementById('motHier').textContent='—';document.getElementById('countTrouve').textContent='0';}
 }
 loadStats();setInterval(loadStats,30000);
+
 function animateRow(row,finalScore,color){
   const badge=row.querySelector('.score-badge');
   const bar=row.querySelector('.mini-bar');
@@ -202,7 +232,9 @@ function animateRow(row,finalScore,color){
   }
   requestAnimationFrame(step);
 }
-let words=[],attempts=0,isLoading=false,gagne=false;
+
+let words=[],attempts=0,isLoading=false,gagne=false,motGagne='';
+
 function render(animWord){
   const sorted=[...words].sort((a,b)=>b.score-a.score);
   const list=document.getElementById('wordsList');
@@ -230,13 +262,20 @@ function render(animWord){
     document.getElementById('attemptsNum').textContent=attempts;
   }
 }
-async function afficherVictoire(mot,nb){
+
+async function afficherVictoire(mot,nb,animate=true){
   document.getElementById('winMot').textContent=mot;
   document.getElementById('winAttempts').textContent=nb;
   try{const r=await fetch('/api/stats');const d=await r.json();document.getElementById('winCount').textContent=d.count;document.getElementById('countTrouve').textContent=d.count;}
   catch(e){document.getElementById('winCount').textContent='—';}
-  document.getElementById('winOverlay').classList.add('show');
+  if(animate)document.getElementById('winOverlay').classList.add('show');
+  document.getElementById('dejaJoueMsg').style.display='flex';
+  document.getElementById('dejaJoueMot').textContent=mot;
+  document.getElementById('dejaJoueAttempts').textContent=nb;
+  document.getElementById('wordInput').disabled=true;
+  document.getElementById('submitBtn').disabled=true;
 }
+
 async function submit(){
   if(isLoading||gagne)return;
   const input=document.getElementById('wordInput');
@@ -254,15 +293,22 @@ async function submit(){
     const res=await fetch('/api/score',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mot:word})});
     const data=await res.json();
     if(data.invalide){attempts--;const errRow=document.createElement('div');errRow.className='invalide-row';errRow.textContent='Mot invalide — prénom ou orthographe incorrecte.';document.getElementById('wordsList').prepend(errRow);setTimeout(()=>errRow.remove(),3000);}
-    else if(data.gagne||data.score>=100){gagne=true;words.push({word,score:100,order:attempts});render(word);setTimeout(()=>afficherVictoire(word,attempts),1800);}
-    else{words.push({word,score:data.score,order:attempts});render(word);}
+    else if(data.gagne||data.score>=100){gagne=true;motGagne=word;words.push({word,score:100,order:attempts});sauvegarder();render(word);setTimeout(()=>afficherVictoire(word,attempts,true),1800);return;}
+    else{words.push({word,score:data.score,order:attempts});sauvegarder();render(word);}
   }catch(e){attempts--;const errRow=document.createElement('div');errRow.className='invalide-row';errRow.textContent='Erreur, réessaie.';document.getElementById('wordsList').prepend(errRow);setTimeout(()=>errRow.remove(),3000);}
   btn.disabled=false;btn.textContent='Valider';
   input.disabled=false;input.focus();
   isLoading=false;
 }
+
 document.getElementById('submitBtn').addEventListener('click',submit);
 document.getElementById('wordInput').addEventListener('keydown',e=>{if(e.key==='Enter')submit();});
+
+charger();
+if(words.length>0){
+  render(null);
+  if(gagne)afficherVictoire(motGagne,attempts,false);
+}
 </script>
 </body>
 </html>
